@@ -73,14 +73,18 @@ COPY pip.conf /root/.pip/pip.conf
 RUN git clone https://github.com/pwndbg/pwndbg && \
     cd pwndbg && chmod +x setup.sh && ./setup.sh
 
+RUN wget -O /root/.gdbinit-gef.py -q https://github.com/hugsy/gef/raw/master/gef.py && \
+    echo source /root/.gdbinit-gef.py >> ~/.gdbinit
+
 RUN git clone https://github.com/scwuaptx/Pwngdb.git /root/Pwngdb && \
     cd /root/Pwngdb && cat /root/Pwngdb/.gdbinit  >> /root/.gdbinit && \
     sed -i "s?source ~/peda/peda.py?# source ~/peda/peda.py?g" /root/.gdbinit
 
-RUN git clone https://github.com/niklasb/libc-database.git libc-database && \
-    cd libc-database && ./get || echo "/libc-database/" > ~/.libcdb_path
+RUN git clone https://github.com/niklasb/libc-database.git libc-database
+#RUN git clone https://github.com/niklasb/libc-database.git libc-database && \
+#    cd libc-database && ./get || echo "/libc-database/" > ~/.libcdb_path
 
-WORKDIR /ctf/work/
+WORKDIR /pwn/work/
 
 COPY --from=skysider/glibc_builder64:2.19 /glibc/2.19/64 /glibc/2.19/64
 COPY --from=skysider/glibc_builder32:2.19 /glibc/2.19/32 /glibc/2.19/32
@@ -94,8 +98,10 @@ COPY --from=skysider/glibc_builder32:2.24 /glibc/2.24/32 /glibc/2.24/32
 COPY --from=skysider/glibc_builder64:2.28 /glibc/2.28/64 /glibc/2.28/64
 COPY --from=skysider/glibc_builder32:2.28 /glibc/2.28/32 /glibc/2.28/32
 
-COPY linux_server linux_server64  /ctf/
+COPY linux_server linux_server64  /pwn/
 
-RUN chmod a+x /ctf/linux_server /ctf/linux_server64
+RUN chmod a+x /pwn/linux_server /pwn/linux_server64
+
+COPY .vimrc /root/.vimrc
 
 CMD ["/sbin/my_init"]

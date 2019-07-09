@@ -103,7 +103,7 @@ COPY linux_server linux_server64  /pwn/
 
 RUN chmod a+x /pwn/linux_server /pwn/linux_server64
 
-COPY .vimrc /root/.vimrc
+RUN wget -O /usr/local/lib/python2.7/dist-packages/roputils.py -q https://raw.githubusercontent.com/qaqmander/roputils/master/roputils.py
 
 #CMD ["/sbin/my_init"]
 CMD ["/bin/bash"]

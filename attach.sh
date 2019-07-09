@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker exec -it pwn bash
+sudo docker exec -it pwn bash

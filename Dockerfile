@@ -71,10 +71,11 @@ RUN gem install one_gadget seccomp-tools && rm -rf /var/lib/gems/2.*/cache/*
 COPY pip.conf /root/.pip/pip.conf
 
 RUN git clone https://github.com/pwndbg/pwndbg && \
-    cd pwndbg && chmod +x setup.sh && ./setup.sh
+    cd pwndbg && chmod +x setup.sh && ./setup.sh && \
+    sed -i "s?source /pwndbg/gdbinit.py?# source /pwndbg/gdbinit.py?g" /root/.gdbinit
 
-RUN wget -O /root/.gdbinit-gef.py -q https://github.com/hugsy/gef/raw/master/gef.py && \
-    echo source /root/.gdbinit-gef.py >> ~/.gdbinit
+RUN wget -O /root/.gdbinit-gef.py -q https://raw.githubusercontent.com/hugsy/gef/master/gef.py && \
+    echo source /root/.gdbinit-gef.py >> /root/.gdbinit
 
 RUN git clone https://github.com/scwuaptx/Pwngdb.git /root/Pwngdb && \
     cd /root/Pwngdb && cat /root/Pwngdb/.gdbinit  >> /root/.gdbinit && \
@@ -104,4 +105,5 @@ RUN chmod a+x /pwn/linux_server /pwn/linux_server64
 
 COPY .vimrc /root/.vimrc
 
-CMD ["/sbin/my_init"]
+#CMD ["/sbin/my_init"]
+CMD ["/bin/bash"]

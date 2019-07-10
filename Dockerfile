@@ -87,18 +87,6 @@ RUN git clone https://github.com/niklasb/libc-database.git libc-database
 
 WORKDIR /pwn/work/
 
-#COPY --from=skysider/glibc_builder64:2.19 /glibc/2.19/64 /glibc/2.19/64
-#COPY --from=skysider/glibc_builder32:2.19 /glibc/2.19/32 /glibc/2.19/32
-#
-#COPY --from=skysider/glibc_builder64:2.23 /glibc/2.23/64 /glibc/2.23/64
-#COPY --from=skysider/glibc_builder32:2.23 /glibc/2.23/32 /glibc/2.23/32
-#
-#COPY --from=skysider/glibc_builder64:2.24 /glibc/2.24/64 /glibc/2.24/64
-#COPY --from=skysider/glibc_builder32:2.24 /glibc/2.24/32 /glibc/2.24/32
-#
-#COPY --from=skysider/glibc_builder64:2.28 /glibc/2.28/64 /glibc/2.28/64
-#COPY --from=skysider/glibc_builder32:2.28 /glibc/2.28/32 /glibc/2.28/32
-
 COPY linux_server linux_server64  /pwn/
 
 RUN chmod a+x /pwn/linux_server /pwn/linux_server64
@@ -111,6 +99,30 @@ RUN wget -O /pwn/setup.sh https://raw.githubusercontent.com/qaqmander/qpwn/maste
 
 RUN git clone --recursive https://github.com/tony/tmux-config.git ~/.tmux && \
     ln -s ~/.tmux/.tmux.conf ~/.tmux.conf
+
+COPY --from=skysider/glibc_builder64:2.19 /glibc/2.19/64 /glibc/2.19/64
+COPY --from=skysider/glibc_builder32:2.19 /glibc/2.19/32 /glibc/2.19/32
+
+COPY --from=skysider/glibc_builder64:2.23 /glibc/2.23/64 /glibc/2.23/64
+COPY --from=skysider/glibc_builder32:2.23 /glibc/2.23/32 /glibc/2.23/32
+
+COPY --from=skysider/glibc_builder64:2.24 /glibc/2.24/64 /glibc/2.24/64
+COPY --from=skysider/glibc_builder32:2.24 /glibc/2.24/32 /glibc/2.24/32
+
+COPY --from=skysider/glibc_builder64:2.25 /glibc/2.25/64 /glibc/2.25/64
+#COPY --from=skysider/glibc_builder32:2.25 /glibc/2.25/32 /glibc/2.25/32
+
+COPY --from=skysider/glibc_builder64:2.26 /glibc/2.26/64 /glibc/2.26/64
+COPY --from=skysider/glibc_builder32:2.26 /glibc/2.26/32 /glibc/2.26/32
+
+COPY --from=skysider/glibc_builder64:2.27 /glibc/2.27/64 /glibc/2.27/64
+COPY --from=skysider/glibc_builder32:2.27 /glibc/2.27/32 /glibc/2.27/32
+
+COPY --from=skysider/glibc_builder64:2.28 /glibc/2.28/64 /glibc/2.28/64
+COPY --from=skysider/glibc_builder32:2.28 /glibc/2.28/32 /glibc/2.28/32
+
+COPY --from=skysider/glibc_builder64:2.29 /glibc/2.29/64 /glibc/2.29/64
+COPY --from=skysider/glibc_builder32:2.29 /glibc/2.29/32 /glibc/2.29/32
 
 #CMD ["/sbin/my_init"]
 CMD ["/bin/bash"]

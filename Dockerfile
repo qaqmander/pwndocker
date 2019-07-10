@@ -81,29 +81,33 @@ RUN git clone https://github.com/scwuaptx/Pwngdb.git /root/Pwngdb && \
     cd /root/Pwngdb && cat /root/Pwngdb/.gdbinit  >> /root/.gdbinit && \
     sed -i "s?source ~/peda/peda.py?# source ~/peda/peda.py?g" /root/.gdbinit
 
-RUN git clone https://github.com/niklasb/libc-database.git libc-database
-#RUN git clone https://github.com/niklasb/libc-database.git libc-database && \
-#    cd libc-database && ./get || echo "/libc-database/" > ~/.libcdb_path
+#RUN git clone https://github.com/niklasb/libc-database.git libc-database
+RUN git clone https://github.com/niklasb/libc-database.git libc-database && \
+    cd libc-database && ./get || echo "/libc-database/" > ~/.libcdb_path
 
 WORKDIR /pwn/work/
 
-COPY --from=skysider/glibc_builder64:2.19 /glibc/2.19/64 /glibc/2.19/64
-COPY --from=skysider/glibc_builder32:2.19 /glibc/2.19/32 /glibc/2.19/32
-
-COPY --from=skysider/glibc_builder64:2.23 /glibc/2.23/64 /glibc/2.23/64
-COPY --from=skysider/glibc_builder32:2.23 /glibc/2.23/32 /glibc/2.23/32
-
-COPY --from=skysider/glibc_builder64:2.24 /glibc/2.24/64 /glibc/2.24/64
-COPY --from=skysider/glibc_builder32:2.24 /glibc/2.24/32 /glibc/2.24/32
-
-COPY --from=skysider/glibc_builder64:2.28 /glibc/2.28/64 /glibc/2.28/64
-COPY --from=skysider/glibc_builder32:2.28 /glibc/2.28/32 /glibc/2.28/32
+#COPY --from=skysider/glibc_builder64:2.19 /glibc/2.19/64 /glibc/2.19/64
+#COPY --from=skysider/glibc_builder32:2.19 /glibc/2.19/32 /glibc/2.19/32
+#
+#COPY --from=skysider/glibc_builder64:2.23 /glibc/2.23/64 /glibc/2.23/64
+#COPY --from=skysider/glibc_builder32:2.23 /glibc/2.23/32 /glibc/2.23/32
+#
+#COPY --from=skysider/glibc_builder64:2.24 /glibc/2.24/64 /glibc/2.24/64
+#COPY --from=skysider/glibc_builder32:2.24 /glibc/2.24/32 /glibc/2.24/32
+#
+#COPY --from=skysider/glibc_builder64:2.28 /glibc/2.28/64 /glibc/2.28/64
+#COPY --from=skysider/glibc_builder32:2.28 /glibc/2.28/32 /glibc/2.28/32
 
 COPY linux_server linux_server64  /pwn/
 
 RUN chmod a+x /pwn/linux_server /pwn/linux_server64
 
 RUN wget -O /usr/local/lib/python2.7/dist-packages/roputils.py -q https://raw.githubusercontent.com/qaqmander/roputils/master/roputils.py
+
+RUN wget -O /pwn/setup.sh https://raw.githubusercontent.com/qaqmander/qpwn/master/setup.sh && \
+    sed -i "s?#test_and_move '/tmp/qpwn/vimrc'?test_and_move '/tmp/qpwn/vimrc'?g" /pwn/setup.sh && \
+    chmod a+x /pwn/setup.sh && /pwn/setup.sh && rm /pwn/setup.sh
 
 #CMD ["/sbin/my_init"]
 CMD ["/bin/bash"]

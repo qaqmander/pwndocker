@@ -123,7 +123,7 @@ COPY --from=skysider/glibc_builder32:2.29 /glibc/2.29/32 /glibc/2.29/32
 
 RUN git clone --recursive https://github.com/tony/tmux-config.git /root/.tmux && \
     ln -s /root/.tmux/.tmux.conf /root/.tmux.conf && \
-    printf '\n%s\n' 'set-option -g mouse on' >> /root/.tmux.conf
+    echo '\nset-option -g mouse on\n' >> /root/.tmux.conf
 
 #CMD ["/sbin/my_init"]
 CMD ["/bin/bash"]

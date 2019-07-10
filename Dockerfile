@@ -81,9 +81,9 @@ RUN git clone https://github.com/scwuaptx/Pwngdb.git /root/Pwngdb && \
     cd /root/Pwngdb && cat /root/Pwngdb/.gdbinit  >> /root/.gdbinit && \
     sed -i "s?source ~/peda/peda.py?# source ~/peda/peda.py?g" /root/.gdbinit
 
-#RUN git clone https://github.com/niklasb/libc-database.git libc-database
-RUN git clone https://github.com/niklasb/libc-database.git libc-database && \
-    cd libc-database && ./get || echo "/libc-database/" > ~/.libcdb_path
+RUN git clone https://github.com/niklasb/libc-database.git libc-database
+#RUN git clone https://github.com/niklasb/libc-database.git libc-database && \
+#    cd libc-database && ./get || echo "/libc-database/" > ~/.libcdb_path
 
 WORKDIR /pwn/work/
 
@@ -108,6 +108,9 @@ RUN wget -O /usr/local/lib/python2.7/dist-packages/roputils.py -q https://raw.gi
 RUN wget -O /pwn/setup.sh https://raw.githubusercontent.com/qaqmander/qpwn/master/setup.sh && \
     sed -i "s?#test_and_move '/tmp/qpwn/vimrc'?test_and_move '/tmp/qpwn/vimrc'?g" /pwn/setup.sh && \
     chmod a+x /pwn/setup.sh && /pwn/setup.sh && rm /pwn/setup.sh
+
+RUN git clone --recursive https://github.com/tony/tmux-config.git ~/.tmux && \
+    ln -s ~/.tmux/.tmux.conf ~/.tmux.conf
 
 #CMD ["/sbin/my_init"]
 CMD ["/bin/bash"]

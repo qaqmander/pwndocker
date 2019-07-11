@@ -93,10 +93,6 @@ RUN chmod a+x /pwn/linux_server /pwn/linux_server64
 
 RUN wget -O /usr/local/lib/python2.7/dist-packages/roputils.py -q https://raw.githubusercontent.com/qaqmander/roputils/master/roputils.py
 
-RUN wget -O /pwn/setup.sh https://raw.githubusercontent.com/qaqmander/qpwn/master/setup.sh && \
-    sed -i "s?#test_and_move '/tmp/qpwn/vimrc'?test_and_move '/tmp/qpwn/vimrc'?g" /pwn/setup.sh && \
-    chmod a+x /pwn/setup.sh && /pwn/setup.sh && rm /pwn/setup.sh
-
 COPY --from=skysider/glibc_builder64:2.19 /glibc/2.19/64 /glibc/2.19/64
 COPY --from=skysider/glibc_builder32:2.19 /glibc/2.19/32 /glibc/2.19/32
 
@@ -124,6 +120,10 @@ COPY --from=skysider/glibc_builder32:2.29 /glibc/2.29/32 /glibc/2.29/32
 RUN git clone --recursive https://github.com/tony/tmux-config.git /root/.tmux && \
     ln -s /root/.tmux/.tmux.conf /root/.tmux.conf && \
     printf '\n%s\n' 'set-option -g mouse on' >> /root/.tmux.conf
+
+RUN wget -O /pwn/setup.sh https://raw.githubusercontent.com/qaqmander/qpwn/master/setup.sh && \
+    sed -i "s?#test_and_move '/tmp/qpwn/vimrc'?test_and_move '/tmp/qpwn/vimrc'?g" /pwn/setup.sh && \
+    chmod a+x /pwn/setup.sh && /pwn/setup.sh && rm /pwn/setup.sh
 
 #CMD ["/sbin/my_init"]
 CMD ["/bin/bash"]

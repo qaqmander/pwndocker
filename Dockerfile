@@ -77,10 +77,6 @@ RUN git clone https://github.com/pwndbg/pwndbg && \
 RUN wget -O /root/.gdbinit-gef.py -q https://raw.githubusercontent.com/hugsy/gef/master/gef.py && \
     echo source /root/.gdbinit-gef.py >> /root/.gdbinit
 
-RUN git clone https://github.com/scwuaptx/Pwngdb.git /root/Pwngdb && \
-    cd /root/Pwngdb && cat /root/Pwngdb/.gdbinit  >> /root/.gdbinit && \
-    sed -i "s?source ~/peda/peda.py?# source ~/peda/peda.py?g" /root/.gdbinit
-
 RUN git clone https://github.com/niklasb/libc-database.git libc-database
 #RUN git clone https://github.com/niklasb/libc-database.git libc-database && \
 #    cd libc-database && ./get || echo "/libc-database/" > ~/.libcdb_path
@@ -120,6 +116,12 @@ COPY --from=skysider/glibc_builder32:2.29 /glibc/2.29/32 /glibc/2.29/32
 RUN git clone --recursive https://github.com/tony/tmux-config.git /root/.tmux && \
     ln -s /root/.tmux/.tmux.conf /root/.tmux.conf && \
     printf '\n%s\n' 'set-option -g mouse on' >> /root/.tmux.conf
+
+RUN git clone https://github.com/scwuaptx/Pwngdb.git /root/Pwngdb && \
+    cd /root/Pwngdb && cat /root/Pwngdb/.gdbinit  >> /root/.gdbinit && \
+    sed -i "s?source ~/peda/peda.py?# source ~/peda/peda.py?g" /root/.gdbinit
+
+RUN echo "alias changeld='patchelf --set-interpreter'" >> $HOME/.bashrc
 
 RUN wget -O /pwn/setup.sh https://raw.githubusercontent.com/qaqmander/qpwn/master/setup.sh && \
     sed -i "s?#test_and_move '/tmp/qpwn/vimrc'?test_and_move '/tmp/qpwn/vimrc'?g" /pwn/setup.sh && \

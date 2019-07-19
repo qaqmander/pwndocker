@@ -14,6 +14,7 @@ RUN dpkg --add-architecture i386 && \
     cmake \
     ipython \
     vim \
+    ctags \
     net-tools \
     iputils-ping \
     libffi-dev \
@@ -122,6 +123,8 @@ RUN git clone https://github.com/scwuaptx/Pwngdb.git /root/Pwngdb && \
     sed -i "s?source ~/peda/peda.py?# source ~/peda/peda.py?g" /root/.gdbinit
 
 RUN echo "alias changeld='patchelf --set-interpreter'" >> $HOME/.bashrc
+
+RUN printf '\n%s\n' 'echo 0 >/proc/sys/kernel/randomize_va_space' >> $HOME/.bashrc
 
 RUN wget -O /pwn/setup.sh https://raw.githubusercontent.com/qaqmander/qpwn/master/setup.sh && \
     sed -i "s?#test_and_move '/tmp/qpwn/vimrc'?test_and_move '/tmp/qpwn/vimrc'?g" /pwn/setup.sh && \

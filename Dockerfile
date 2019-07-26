@@ -37,7 +37,6 @@ RUN dpkg --add-architecture i386 && \
     patchelf \
     gawk \
     file \
-    man \
     python3-distutils \
     bison --fix-missing && \
     rm -rf /var/lib/apt/list/*

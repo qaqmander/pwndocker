@@ -126,7 +126,18 @@ RUN echo "alias changeld='patchelf --set-interpreter'" >> $HOME/.bashrc
 
 RUN printf '\n%s\n' 'echo 0 >/proc/sys/kernel/randomize_va_space' >> $HOME/.bashrc
 
-RUN apt-get -y install qemu --fix-missing && rm -rf /var/lib/apt/list/*
+RUN apt-get update && \
+    apt-get -y install qemu qemu-user qemu-user-static \
+    'binfmt*' \
+    libc6-mipsel-cross \
+    gcc-mipsel-linux-gnu \
+    --fix-missing && rm -rf /var/lib/apt/list/*
+
+RUN mkdir /etc/qemu-binfmt && \
+    ln -s /usr/mipsel-linux-gnu /etc/qemu-binfmt/mipsel # MIPSEL
+
+RUN git clone https://github.com/hellman/libnum && \
+    cd libnum && python setup.py install
 
 RUN wget -O /pwn/setup.sh https://raw.githubusercontent.com/qaqmander/qpwn/master/setup.sh && \
     sed -i "s?#test_and_move '/tmp/qpwn/vimrc'?test_and_move '/tmp/qpwn/vimrc'?g" /pwn/setup.sh && \

@@ -139,6 +139,9 @@ RUN mkdir /etc/qemu-binfmt && \
 RUN git clone https://github.com/hellman/libnum && \
     cd libnum && python setup.py install
 
+RUN apt-get update && \
+    apt-get -y install foremost
+
 RUN wget -O /pwn/setup.sh https://raw.githubusercontent.com/qaqmander/qpwn/master/setup.sh && \
     sed -i "s?#test_and_move '/tmp/qpwn/vimrc'?test_and_move '/tmp/qpwn/vimrc'?g" /pwn/setup.sh && \
     chmod a+x /pwn/setup.sh && /pwn/setup.sh && rm /pwn/setup.sh

@@ -140,7 +140,8 @@ RUN git clone https://github.com/hellman/libnum && \
     cd libnum && python setup.py install
 
 RUN apt-get update && \
-    apt-get -y install foremost
+    apt-get -y install foremost \
+    fcrackzip
 
 RUN wget -O /pwn/setup.sh https://raw.githubusercontent.com/qaqmander/qpwn/master/setup.sh && \
     sed -i "s?#test_and_move '/tmp/qpwn/vimrc'?test_and_move '/tmp/qpwn/vimrc'?g" /pwn/setup.sh && \

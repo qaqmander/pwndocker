@@ -149,7 +149,7 @@ RUN wget https://github.com/devttys0/binwalk/archive/master.zip && \
 RUN pip install virtualenv virtualenvwrapper && \
     printf '\n%s\n%s\n%s\n' 'export WORKON_HOME=$HOME/.virtualenvs' \
     'export VIRTUALENVWRAPPER_PYTHON="$(command \which python3)"'   \
-    'source /usr/local/bin/virtualenvwrapper.sh' >$HOME/.bashrc
+    'source /usr/local/bin/virtualenvwrapper.sh' >>$HOME/.bashrc
 
 RUN wget -O /pwn/setup.sh https://raw.githubusercontent.com/qaqmander/qpwn/master/setup.sh && \
     sed -i "s?#test_and_move '/tmp/qpwn/vimrc'?test_and_move '/tmp/qpwn/vimrc'?g" /pwn/setup.sh && \

@@ -146,6 +146,11 @@ RUN apt-get update && \
 RUN wget https://github.com/devttys0/binwalk/archive/master.zip && \
     unzip master.zip && cd binwalk-master && python setup.py install
 
+RUN pip install virtualenv virtualenvwrapper && \
+    printf '\n%s\n%s\n%s\n' 'export WORKON_HOME=$HOME/.virtualenvs' \
+    'export VIRTUALENVWRAPPER_PYTHON="$(command \which python3)"'   \
+    'source /usr/local/bin/virtualenvwrapper.sh' >$HOME/.bashrc
+
 RUN wget -O /pwn/setup.sh https://raw.githubusercontent.com/qaqmander/qpwn/master/setup.sh && \
     sed -i "s?#test_and_move '/tmp/qpwn/vimrc'?test_and_move '/tmp/qpwn/vimrc'?g" /pwn/setup.sh && \
     chmod a+x /pwn/setup.sh && /pwn/setup.sh && rm /pwn/setup.sh

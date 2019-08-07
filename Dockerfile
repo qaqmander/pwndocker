@@ -146,7 +146,7 @@ RUN apt-get update && \
 RUN wget https://github.com/devttys0/binwalk/archive/master.zip && \
     unzip master.zip && cd binwalk-master && python setup.py install
 
-RUN pip install virtualenv virtualenvwrapper && \
+RUN pip3 install virtualenv virtualenvwrapper && \
     printf '\n%s\n%s\n%s\n' 'export WORKON_HOME=$HOME/.virtualenvs' \
     'export VIRTUALENVWRAPPER_PYTHON="$(command \which python3)"'   \
     'source /usr/local/bin/virtualenvwrapper.sh' >>$HOME/.bashrc

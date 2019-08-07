@@ -143,9 +143,14 @@ RUN apt-get update && \
     apt-get -y install foremost \
     fcrackzip
 
+RUN wget https://github.com/devttys0/binwalk/archive/master.zip && \
+    unzip master.zip && cd binwalk-master && python setup.py install
+
 RUN wget -O /pwn/setup.sh https://raw.githubusercontent.com/qaqmander/qpwn/master/setup.sh && \
     sed -i "s?#test_and_move '/tmp/qpwn/vimrc'?test_and_move '/tmp/qpwn/vimrc'?g" /pwn/setup.sh && \
     chmod a+x /pwn/setup.sh && /pwn/setup.sh && rm /pwn/setup.sh
+
+RUN echo 'You need ./binwalk-master/deps.sh'
 
 #CMD ["/sbin/my_init"]
 CMD ["/bin/bash"]
